@@ -8,9 +8,7 @@ def bellman_ford(vertices, edges, source):
 
     for _ in range(len(vertices)):
         for (u, v), w in edges:
-            if dist[u] + w < dist[v]:
-                dist[v] = dist[u] + w
-
+            dist[v] = min(dist[v], dist[u] + w)
     return dist
 
 def dijkstra(vertices, edges, source):
@@ -45,17 +43,17 @@ def johnson(vertices, edges):
     # step 1
     q = 'q'
     vertices.append(q)
+    remove_later = []
     for v in vertices:
         edges[(q, v)] = 0
+        remove_later.append((q, v))
 
     # step 2
     h = bellman_ford(vertices, edges, q)
 
     # step 3
-    remove_later = []
     for (u, v), w in edges:
         edges[(u, v)] = w + h[u] - h[v]
-        remove_later.append((u, v))
 
     # step 4
     vertices.remove(q)
@@ -72,5 +70,6 @@ def johnson(vertices, edges):
         if total_dist <= shortest_dist:
             shortest_dist = total_dist
             shortest_path = prevs
-
-    return shortest_path
+            
+    # aca faltaria aplicarle w = w - (h[u] - h[v]) a cada arista
+    return shortest_path 
