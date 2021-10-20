@@ -9,6 +9,19 @@ example_edges = [
         [("E","C"), 5]
         ]
 
+example_edges2 = [
+        [("A","B"),10],
+        [("A","C"),2],
+        [("C","A"),3],
+        [("B","D"),4],
+        [("C","D"),2],        
+        [("D","B"),4],
+        [("D","E"),7],
+        [("E","A"),1],
+        [("E","C"),5]
+        ]
+
+
 def print_dict(dic):
     for k in dic: print(k,dic[k])
     print()

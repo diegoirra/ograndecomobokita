@@ -29,8 +29,8 @@ def dijkstra(vertices, edges, source):
             prev[v] = 'Source'
         else:
             dist[v] = Inf
-            heapq.heappush(heap, (v, dist[v]))
             prev[v] = ''    
+        heapq.heappush(heap, (v, dist[v]))
     print_dict(dist)  
     print("El Camino hacia El Dorado:")
     print_path(prev)
