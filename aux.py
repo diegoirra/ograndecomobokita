@@ -26,3 +26,10 @@ def print_dict(dic):
     for k in dic: print(f"{k}    {dic[k]}")
     print()
     return
+
+
+def print_matr(dic):
+    print(" \n\n******************************** Matriz de distancias  ********************************")
+    print('    ' + '\t'.join([str(k) for k in dic.keys()]))
+    for k in dic:
+        print(k + '\t' + '\t'.join([str(value) for value in list(dic[k].values())]))

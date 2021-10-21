@@ -3,6 +3,8 @@ from dijkstra import dijkstra
 from numpy import Inf
 from aux import example_edges,example_vertices,print_dict
 
+from ograndecomobokita.aux import print_matr
+
 SOURCE = 'Source'
 
 def print_neighbors(vertex, path):
@@ -24,6 +26,8 @@ def print_path(p):
 
 
 def johnson(vertices, edges):
+
+    dist_matrix = {}
     
     print("Running Johnson for below Graph:")
     print()
@@ -99,6 +103,7 @@ def johnson(vertices, edges):
     for v in vertices:
         print("Applying Dijkstra for vertex:", v)
         dists, prevs = dijkstra(vertices, edges, v)
+        dist_matrix[v] = dists
         total_dist = sum(dists.values())
         print("Sum of distances = ", total_dist)
 
@@ -129,6 +134,8 @@ def johnson(vertices, edges):
     print()
     print(f"Shortest paths to everywhere from {winner}")
     print_path(shortest_path)
+
+    print_matr(dist_matrix)
     
     return  
 
