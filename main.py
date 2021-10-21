@@ -1,4 +1,4 @@
-from ograndecomobokita.johnson import johnson
+from johnson import johnson
 
 vertices = set()
 edges = []

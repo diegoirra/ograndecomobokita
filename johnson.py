@@ -126,7 +126,11 @@ def johnson(vertices, edges):
         dist_table[d] = dist_table[d] + h[winner] - h[d]
     print_dict(dist_table)
     
-    return shortest_path 
+    print()
+    print(f"Shortest paths to everywhere from {winner}")
+    print_path(shortest_path)
+    
+    return  
 
 
 if __name__ == '__main__':
