@@ -10,11 +10,11 @@ with open('depositos.txt') as f:
         vertices.add(v)
         vertices.add(u)
         edge = (v,u)
-        edges.append([edge, w])
-vertices = list(vertices)
+        edges.append([edge, int(w)])
 
 vertices_list = list(vertices)
 vertices_list.sort()
 print(edges)
 print(vertices_list)
-print(johnson(vertices_list, edges))
+
+johnson(vertices_list, edges)
