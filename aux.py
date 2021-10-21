@@ -23,6 +23,6 @@ example_edges2 = [
 
 
 def print_dict(dic):
-    for k in dic: print(k,dic[k])
+    for k in dic: print(f"{k}    {dic[k]}")
     print()
     return

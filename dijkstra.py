@@ -1,5 +1,7 @@
 from numpy import Inf
 from aux import print_dict,example_vertices,example_edges2
+import copy
+from asyncio.tasks import sleep
 
 SOURCE = 'Source'
 
@@ -47,10 +49,10 @@ def dijkstra(vertices, edges, source):
         print()
         print("ERROR: Source not in Graph!!")
         return 
-        
+    
     dist = {}
     prev = {}
-    not_visited = vertices
+    not_visited = copy.deepcopy(vertices)
     visited = []
     print("Init distances:")
     for v in vertices:
@@ -96,13 +98,19 @@ def dijkstra(vertices, edges, source):
             prev[next_node]=current_node
             current_node=next_node
             print("Updated El Camino")
-            
+
         print()
         print("El Camino hacia El Dorado:")
         print_path(prev)
         print()
         print("Shortest distances from",source)
         print_dict(dist)
+        
+        if all(not neighbors[v] for v in neighbors):
+            break
+                
+    print("Dijkstra completed.")
+    print()
         
     return dist, prev
 
@@ -113,7 +121,8 @@ if __name__ == '__main__':
     edges = example_edges2
     
     
-    dijkstra(vertices, edges, "A")
+    dijkstra(vertices, edges, "B")
+    
 
 
 
