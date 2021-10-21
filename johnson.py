@@ -33,6 +33,7 @@ def johnson(vertices, edges):
     for e in edges:
         print("    ",e)
     print()
+    
         
     print("Starting Algorithm:")
     print()
@@ -40,12 +41,12 @@ def johnson(vertices, edges):
     q = 'q'
     print("Add extra vertex:",q)
     print()
-    vertices.append(q)
     remove_later = []
     for v in vertices:
         e = [(q, v),0] 
         edges.append(e)
         remove_later.append(e)
+    vertices.append(q)
     print("New Graph:")
     print()
     print("Vertices:")
@@ -74,7 +75,8 @@ def johnson(vertices, edges):
     for e in edges:
         print("    ",e)
     print()
-
+    
+    
     # step 4
     print("Remove extra vertex and edges...")
     vertices.remove(q)
@@ -88,8 +90,11 @@ def johnson(vertices, edges):
         print("    ",e)
     print()
 
+
     shortest_dist = Inf
     shortest_path = None
+    dist_table = []
+    winner = ''
 
     for v in vertices:
         print("Applying Dijkstra for vertex:", v)
@@ -102,10 +107,25 @@ def johnson(vertices, edges):
             print("Update closest vertex")
             shortest_dist = total_dist
             shortest_path = prevs
+            dist_table = dists.copy()
+            winner = v
+        else:
+            print("Not better :/")
      
-            
-            
-    # aca faltaria aplicarle w = w - (h[u] - h[v]) a cada arista
+    print()
+    print()
+    print("Solution was found!")
+    print("And the winner of Shortest Path between All Pairs Dundie is:")
+    print(f"**********************      {winner}      ********************************")
+    print()
+    print(f"Find distances from {winner} below")
+
+    print()
+    
+    for d in dist_table:
+        dist_table[d] = dist_table[d] + h[winner] - h[d]
+    print_dict(dist_table)
+    
     return shortest_path 
 
 
@@ -115,7 +135,7 @@ if __name__ == '__main__':
     edges = example_edges
     
     
-    dijkstra(vertices, edges, "A")
+    johnson(vertices, edges)
 
 
 

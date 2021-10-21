@@ -21,12 +21,16 @@ def bellman_ford(vertices, edges, source):
     dist = {v: 0 if v == source else Inf for v in vertices}
     print_dict(dist) 
 
-    for i in range(len(vertices)):
+    for i in range(len(vertices)-1):
         print(f"Loop {i+1}:")
         print()        
         for (u, v), w in edges:            
             dist[v] = min(dist[v], dist[u] + w)
         print_dict(dist)
+    
+    print("Bellman-Ford completed.")
+    print()
+    
     return dist
 
 if __name__ == '__main__':
