@@ -2,8 +2,7 @@ from bellman_ford import bellman_ford
 from dijkstra import dijkstra
 from numpy import Inf
 from aux import example_edges,example_vertices,print_dict
-
-from ograndecomobokita.aux import print_matr
+from aux import print_matr
 
 SOURCE = 'Source'
 
@@ -27,8 +26,6 @@ def print_path(p):
 
 def johnson(vertices, edges):
 
-    dist_matrix = {}
-    
     print("Running Johnson for below Graph:")
     print()
     print("Vertices:")
@@ -98,6 +95,7 @@ def johnson(vertices, edges):
     shortest_dist = Inf
     shortest_path = None
     dist_table = []
+    dist_matrix = {}
     winner = ''
 
     for v in vertices:
@@ -116,20 +114,24 @@ def johnson(vertices, edges):
             winner = v
         else:
             print("Not better :/")
-     
+    
+    print("All Dijkstra's completed.")
+    print("Johnson completed!") 
     print()
     print()
     print("Solution was found!")
     print("And the winner of Shortest Path between All Pairs Dundie is:")
+    print()
     print(f"**********************      {winner}      ********************************")
     print()
     print(f"Find distances from {winner} below")
 
     print()
-    
-    for d in dist_table:
-        dist_table[d] = dist_table[d] + h[winner] - h[d]
     print_dict(dist_table)
+    
+    for v in dist_matrix:
+        for d in dist_matrix[v]:
+            dist_matrix[v][d] = dist_matrix[v][d] + h[winner] - h[d]
     
     print()
     print(f"Shortest paths to everywhere from {winner}")

@@ -1,3 +1,4 @@
+from numpy import Inf
 
 example_vertices = ["A","B","C","D","E"]
 example_edges = [
@@ -29,7 +30,27 @@ def print_dict(dic):
 
 
 def print_matr(dic):
-    print(" \n\n******************************** Matriz de distancias  ********************************")
-    print('    ' + '\t'.join([str(k) for k in dic.keys()]))
+    print()
+    print("************************** Distance Matrix **************************")
+    print()
+    print('        ' + '\t'.join([str(k) for k in dic.keys()]) + "    Total")
     for k in dic:
-        print(k + '\t' + '\t'.join([str(value) for value in list(dic[k].values())]))
+        total = sum(dic[k].values())
+        print(k + '\t' + '\t'.join([str(value) if value != Inf else '-' for value in list(dic[k].values())])+ f"    {'N/A' if total == Inf else total}")
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
