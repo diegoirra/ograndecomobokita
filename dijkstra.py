@@ -1,7 +1,6 @@
 from numpy import Inf
 from aux import print_dict,example_vertices,example_edges2
 import copy
-from asyncio.tasks import sleep
 
 SOURCE = 'Source'
 
