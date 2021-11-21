@@ -8,18 +8,9 @@ def update_flows(flows,u,v,i):
     key = f"{u}-{v}"
     flows[key] = flows.get(key,0) + i
        
-def build_residual_graph(graph,flows):
-    vertices,edges = graph
-    residual_edges = []
-    for (u,v),w in edges:
-        flow = get_flow(flows, u,v)
-        if flow < w:
-            residual_edges.append([(u,v), w - flow])
-        if flow > 0:
-            residual_edges.append([(v,u), flow])
-    return (vertices,edges) 
-
 def get_aug_flow(graph, path):
+    if not path:
+        return 0
     aug_flow = 999999999999999
     for i in range(len(path)-2):
         for e in graph[1]:
@@ -37,25 +28,24 @@ def edmonds_karp(graph, source, sink):
     print(f"Vertices: {vertices}")
     print(f"Edges: {edges}")
     
-    print("Initialising flows...")
+    print()
     max_flow = 0
-    flows = {}
-    for e in edges:
-        u,v = e[0]
-        update_flows(flows,u,v,0)
     print(f"Max flow: {max_flow}")
-    print("Flows per edge:")
-    for f in flows:
-        print(f"\t{f}: {flows[f]}")
+
+    print("Initialising Residual Graph...")
+    residual_edges = []
+    for (u,v),w in edges:
+        residual_edges.append([(u,v), w])
+        residual_edges.append([(v,u), 0])
+    residual_graph = (vertices,residual_edges) 
+    print(f"Residual Vertices: {residual_graph[0]}")
+    print(f"Residual Edges:")
+    for e in edges:
+        print(f"\t{e}")
     print()
             
         
     while True:
-        print("Building Residual Graph:")
-        residual_graph = build_residual_graph(graph, flows)
-        print(f"Vertices: {residual_graph[0]}")
-        print(f"Edges: {residual_graph[1]}")
-        print()
         print("Searching minimal path Source-Sink")
         aug_path = bfs(residual_graph, source, sink)
         if not aug_path:
@@ -64,21 +54,27 @@ def edmonds_karp(graph, source, sink):
 
         aug_flow = get_aug_flow(residual_graph, aug_path)
         print(f"Augmenting flow: {aug_flow}")
-        print(f"Updating flows...")
-        
         max_flow += aug_flow
-        for i in range(len(aug_path)-2):
-            u = aug_path[i]
-            v = aug_path[i+1]
-            update_flows(flows, u,v, -aug_flow)
-            update_flows(flows, v,u,  aug_flow)
+        print(f"New max flow = {max_flow}")
         print()
-        print(f"New Max flow: {max_flow}")
-        print(f"Flows per edge:")
-        for f in flows:
-            print(f"\t{f}: {flows[f]}")
+        
+        print(f"Updating Residual Graph...")
+        
+        for edge in residual_edges:
+            for i in range(len(aug_path)-1):
+                u = aug_path[i]
+                v = aug_path[i+1]
+
+                if edge[0] == (u,v):
+                    edge[1] = edge[1] - aug_flow
+                if edge[0] == (v,u):
+                    edge[1] = edge[1] + aug_flow
+                
+        print(f"Residual Vertices: {residual_graph[0]}")
+        print(f"Residual Edges:")
+        for e in residual_edges:
+            print(f"\t{e}")
         print()
-        return
     print()
     
     maxxed_edges = []

@@ -67,7 +67,7 @@ def bfs(graph, source, sink):
                 parents[n] = v
                 queue.append(n)
     
-    return "Goal not found"
+    return []
 
 
 if __name__ == "__main__":
