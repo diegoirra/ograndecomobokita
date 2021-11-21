@@ -1,4 +1,5 @@
 import sys
+from edmondskarp import edmonds_karp
 
 
 vertices = set()
@@ -20,8 +21,8 @@ print()
 
 with open(file) as f:
     lines = f.readlines()
-    source = lines.pop(0)
-    sink   = lines.pop(0)
+    source = lines.pop(0).strip()
+    sink   = lines.pop(0).strip()
     for line in lines:
         v,u,w = line.strip().split(',')
         vertices.add(v)
@@ -40,10 +41,7 @@ print("Vertices:", vertices_list)
 print()
 print("File is good. Continuing...")
 print()
-
-
-## do stuff
-
+edmonds_karp((vertices_list,edges), source, sink)
 
 
 
