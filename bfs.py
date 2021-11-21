@@ -3,11 +3,9 @@ def get_neighbors(graph, vertex):
     edges = graph[1]
     neighbors = set()
     for e in edges:
-        u,w = e[0]
-        if vertex == u:
+        (u,w),weight = e
+        if vertex == u and weight>0:
             neighbors.add(w)
-        # if vertex == w:
-        #     neighbors.add(u)
             
     neighbors = list(neighbors)
     neighbors.sort()
@@ -55,6 +53,7 @@ def bfs(graph, source, sink):
         v = queue.pop(0)        
         if v == sink:
             print()
+            print("BFS complete!")
             print(f"Goal ({sink}) was found!!")
             print("By the following path:")
             return get_path(parents,source,sink)
@@ -68,7 +67,7 @@ def bfs(graph, source, sink):
                 parents[n] = v
                 queue.append(n)
     
-    return "Sink not found"
+    return "Goal not found"
 
 
 if __name__ == "__main__":
