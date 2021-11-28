@@ -11,6 +11,23 @@ def get_neighbors(graph, vertex):
     neighbors.sort()
     return neighbors
 
+def get_neighbors_and_cut(graph, vertex, possible_cuts):
+    edges = graph[1]
+    neighbors = set()
+    cut = []
+    for e in edges:
+        (u,w),weight = e
+        if vertex == u:
+            if e in possible_cuts:
+                print(f"Found flow cut: {e}")
+                cut.append(e) 
+            elif weight>0:
+                neighbors.add(w)
+            
+    neighbors = list(neighbors)
+    neighbors.sort()
+    return neighbors,cut
+
 def get_path(parents,source,sink):
     print()
     path = [sink]
@@ -68,6 +85,33 @@ def bfs(graph, source, sink):
                 queue.append(n)
     
     return []
+
+def bfs_cut(graph, source, sink, possible_cuts):
+    queue = []
+    queue.append(source)
+    parents = {}
+    parents[source] = "Source"
+    
+    min_cuts = []
+    while queue:
+        print(f"BFS queue: {queue}")        
+        v = queue.pop(0)        
+        if v == sink:
+            print("Sink was found, no cut")
+            return []
+        
+        print(f"Current node: {v}")
+        v_neighbors,cuts = get_neighbors_and_cut(graph, v, possible_cuts)
+        for edge in cuts:
+            if edge not in min_cuts:
+                min_cuts.append(edge)
+        
+        for n in v_neighbors:
+            if n not in parents:
+                parents[n] = v
+                queue.append(n)
+    
+    return min_cuts
 
 
 if __name__ == "__main__":

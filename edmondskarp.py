@@ -1,4 +1,4 @@
-from bfs import bfs
+from bfs import bfs, bfs_cut
 
 def get_flow(flows,u,v):
     key = f"{u}-{v}"
@@ -94,22 +94,8 @@ def edmonds_karp(graph, source, sink):
         print(f"\t",e)
     print()
     
-    current_sum = 0
-    min_cut = []
-    for i in range(len(possible_cuts)):
-        for j in range(i+1,len(possible_cuts)):
-            for k in range(i,j):
-                uv,w = possible_cuts[k]
-                current_sum += w
-                min_cut.append([uv,w])
-            if current_sum==max_flow:
-                break
-            min_cut = []
-            current_sum = 0
-        if current_sum==max_flow:
-            break
-        min_cut = []
-        current_sum = 0
+    print(f"BFS-ing for minimum cut...")
+    min_cut = bfs_cut(graph,source,sink,possible_cuts)
         
     print()
     print(f"Minimum cut set:")
@@ -122,7 +108,7 @@ def edmonds_karp(graph, source, sink):
 
 
 if __name__ == '__main__':
-    example_vertices = ["S","A","B","C","D","E", "F","G","T"]
+    example_vertices = ["S","A","B","C","D","E","F","G","T"]
     example_edges = [
         [("S","A"), 5],
         [("S","C"),20],
