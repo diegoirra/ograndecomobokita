@@ -1,15 +1,20 @@
 
 def get_neighbors(graph, vertex):
     edges = graph[1]
+    maxed_vertex_edges = set()
+
     neighbors = set()
     for e in edges:
         (u,w),weight = e
-        if vertex == u and weight>0:
-            neighbors.add(w)
+        if vertex == u:
+            if weight>0:
+                neighbors.add(w)
+            elif weight == 0:
+                maxed_vertex_edges.add((u,w))
             
     neighbors = list(neighbors)
     neighbors.sort()
-    return neighbors
+    return neighbors, maxed_vertex_edges
 
 def get_path(parents,source,sink):
     print()
@@ -44,6 +49,7 @@ def bfs(graph, source, sink):
     queue.append(source)
     parents = {}
     parents[source] = "Source"
+    frontier = set()
     
     while queue:
         print()
@@ -56,18 +62,20 @@ def bfs(graph, source, sink):
             print("BFS complete!")
             print(f"Goal ({sink}) was found!!")
             print("By the following path:")
-            return get_path(parents,source,sink)
+            return get_path(parents,source,sink), frontier
         print("Searching node:",v)
         
-        v_neighbors = get_neighbors(graph, v)
+        v_neighbors, maxed_vertex_edges = get_neighbors(graph, v)
         print(f"Neighbours of {v}: {v_neighbors}")
         for n in v_neighbors:
             if n not in parents:
                 print(f"{n} was not visited! Updating..")
                 parents[n] = v
                 queue.append(n)
+
+        frontier = frontier.union(maxed_vertex_edges)
     
-    return []
+    return [], frontier
 
 
 if __name__ == "__main__":
@@ -75,11 +83,11 @@ if __name__ == "__main__":
     example_edges = [
         [("A","B"),1],
         [("A","D"),1],
-        [("B","C"),1],
-        [("B","F"),1],
+        [("B","C"),0],
+        [("B","F"),0],
         [("C","E"),1],
         [("C","G"),1],
-        [("D","F"),1],
+        [("D","F"),0],
         [("E","B"),1],
         [("E","F"),1],
         [("F","A"),1],

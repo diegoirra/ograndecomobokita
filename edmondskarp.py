@@ -47,7 +47,7 @@ def edmonds_karp(graph, source, sink):
         
     while True:
         print("Searching minimal path Source-Sink")
-        aug_path = bfs(residual_graph, source, sink)
+        aug_path, min_cut = bfs(residual_graph, source, sink)
         if not aug_path:
             print("No more augmeting paths. Max flow found!")
             break
@@ -75,48 +75,16 @@ def edmonds_karp(graph, source, sink):
         for e in residual_edges:
             print(f"\t{e}")
         print()
-    print()
     
-    maxxed_edges = []
-    for uv,w in residual_graph[1]:
-        if w == 0:
-            maxxed_edges.append(uv)
-    
-    possible_cuts = []
-    for e in edges:
-        if e[0] in maxxed_edges:
-            possible_cuts.append(e)
-    
-    possible_cuts.sort(key=lambda x: x[1])
-    print(f"Max flow: {max_flow}")
-    print(f"Edges with maxxed out flow")
-    for e in possible_cuts:
-        print(f"\t",e)
-    print()
-    
-    current_sum = 0
-    min_cut = []
-    for i in range(len(possible_cuts)):
-        for j in range(i+1,len(possible_cuts)):
-            for k in range(i,j):
-                uv,w = possible_cuts[k]
-                current_sum += w
-                min_cut.append([uv,w])
-            if current_sum==max_flow:
-                break
-            min_cut = []
-            current_sum = 0
-        if current_sum==max_flow:
-            break
-        min_cut = []
-        current_sum = 0
-        
     print()
     print(f"Minimum cut set:")
+
+    original_graph_edges = set([e for e, w in edges])
+    min_cut = min_cut.intersection(original_graph_edges)
     for e in min_cut:
         print("\t",e)
     
-    return max_flow,min_cut
+    return max_flow, min_cut
 
 
 
