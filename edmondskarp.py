@@ -87,7 +87,6 @@ def edmonds_karp(graph, source, sink):
         if e[0] in maxxed_edges:
             possible_cuts.append(e)
     
-    possible_cuts.sort(key=lambda x: x[1])
     print(f"Max flow: {max_flow}")
     print(f"Edges with maxxed out flow")
     for e in possible_cuts:
